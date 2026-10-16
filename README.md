@@ -9,10 +9,7 @@
 <div align="center">
     <img src="https://res.cloudinary.com/dntdfccdk/image/upload/v1792129580/Screenshot_2026-10-16_110212_pnwv1r.png" alt="AI Learning Journey     Showcase using n8n Workflow" width="100%">
 </div>
-    The screenshot below shows the n8n workflow connecting the learning-update source, AI processing nodes, and LinkedIn publishing.
 <div align="center">
-
-
     AI Learning Journey Showcase workflow in n8n.
 </div>
 
@@ -97,10 +94,9 @@
     - Exporting, documenting, and versioning workflows with GitHub.
     - Applying security practices when sharing automation projects.
 ### 👨‍💻 Author
-Kanithi Kali Kowsik
+Kanithi Kali Kowsik,
     This project is part of my ongoing learning journey in AI, workflow automation, and practical technology projects.
 <div align="center">
-
     If this project helps you learn something, consider giving the repository a ⭐
     Built with n8n · Google Sheets · Google Gemini · LinkedIn
 </div>
