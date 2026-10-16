@@ -1,0 +1,206 @@
+{
+  "name": "AI Learning Journey Showcase using n8n",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": []
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1gW33QxTOWh_BbOLGh6MOYDhsfcAqZSye0eA1af-IEB4",
+          "mode": "list",
+          "cachedResultName": "Learning Journey Showcase",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gW33QxTOWh_BbOLGh6MOYDhsfcAqZSye0eA1af-IEB4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gW33QxTOWh_BbOLGh6MOYDhsfcAqZSye0eA1af-IEB4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "f74cbbc0-26b1-4659-8ccd-9058c6be2b72",
+      "name": "Google Sheets Trigger",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        -64
+      ],
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "VlETX7g0PxNobkQ8",
+          "name": "Google Sheets Trigger account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze this learning progress entry and create a professional summary:\n\nDate: {{ $json.Date }}\nTopic: {{ $json['Topic/Module'] }}\nWhat I Learned: {{ $json['What I Learned '] }}\nSkills/Tools Used: {{ $json['Skills/Tools'] }}\n\nCreate a concise, impactful summary that:\n1. Highlights the main concept mastered\n2. Emphasizes practical skills gained\n3. Shows progression in the learning journey\n4. Maintains an enthusiastic but professional tone\n\nKeep it under 100 words, focusing on achievements and growth.",
+        "batching": {}
+      },
+      "id": "d8b274dd-5da9-4bfe-a728-0d8bbaa76a7e",
+      "name": "Generate Summary",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -144,
+        -64
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-flash-lite-latest",
+        "options": {}
+      },
+      "id": "fa8e1a1c-bd1a-4709-b86f-48fda59167ba",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        176
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "VBtFQpD77vZ1E1px",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Transform this learning summary into an engaging LinkedIn post: {{ $json.text }}\n\nCreate a post that:\n- Starts with a hook about today's learning achievement\n- Shares 2-3 specific insights or skills gained\n- Includes a reflection on how this knowledge applies to real-world scenarios\n- Uses relevant hashtags: #AIBootcamp #LearningJourney #GenerativeAI #TechSkills #100DaysOfCode\n- Ends with a question to engage the community\n- Length: 200-300 words\n- Professional yet authentic tone\n- Include relevant emojis for visual appeal\n\nFormat with line breaks for readability. Start directly with th",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        208,
+        -64
+      ],
+      "id": "ceec974a-cb97-4eb1-aead-5a3f493caeb2",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        288,
+        176
+      ],
+      "id": "7903938b-3a1a-4d8c-9ed0-0be263f41d84",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "VBtFQpD77vZ1E1px",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "person": "-REP-PnFgM",
+        "text": "={{ $json.text }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        560,
+        -64
+      ],
+      "id": "58861ae6-b616-42d5-beb4-5ab389d7d6b3",
+      "name": "Create a post",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "d49hwQQ5mLkANASm",
+          "name": "LinkedIn account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Generate Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Summary",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Summary": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f79a4868-d408-4312-be23-67d8e162299f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "19dbd2612655a2631c1562fdaac98b843daeb62bf5757f1f4c11ae75097fac09"
+  },
+  "nodeGroups": [],
+  "id": "2vWOnWRCvgsyLpRl",
+  "tags": []
+}
