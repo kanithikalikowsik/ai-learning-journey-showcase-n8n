@@ -6,6 +6,9 @@
 </div>
 
 ### 🖼️ Workflow Preview
+<div align="center">
+    <img src="https://res.cloudinary.com/dntdfccdk/image/upload/v1792129580/Screenshot_2026-10-16_110212_pnwv1r.png" alt="AI Learning Journey     Showcase using n8n Workflow" width="100%">
+</div>
     The screenshot below shows the n8n workflow connecting the learning-update source, AI processing nodes, and LinkedIn publishing.
 <div align="center">
 
